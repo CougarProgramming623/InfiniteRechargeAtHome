@@ -186,12 +186,16 @@ void Climb::LEDCanClimb() {
 	}
 }
 
+inline bool GetEndgameButtonState () {
+	return Robot::Get().GetOI().GetButtonBoard().GetRawButton(18);
+}
+
 inline bool Climb::IsEndgame() {
-	return (Timer::GetMatchTime() < 30 && Timer::GetMatchTime() != -1) ||  m_EndgameOverride.Get();
+	return (Timer::GetMatchTime() < 30 && Timer::GetMatchTime() != -1) ||  GetEndgameButtonState();
 }
 
 inline bool Climb::CanClimb() {
-	return ((Timer::GetMatchTime() < 30 && Timer::GetMatchTime() != -1 ) && isDeployFinished) || m_EndgameOverride.Get();
+	return ((Timer::GetMatchTime() < 30 && Timer::GetMatchTime() != -1 ) && isDeployFinished) || GetEndgameButtonState();
 }
 
 }//namespace

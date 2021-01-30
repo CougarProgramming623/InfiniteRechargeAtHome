@@ -42,6 +42,10 @@ void Shooter::Init() {
 
 }
 
+inline bool GetFlyWheelToggleState() {
+	return Robot::Get().GetOI().GetButtonBoard().GetRawButton(4);
+}
+
 void Shooter::SetupShooterButtons() {
 
 	m_FlyWheelToggle.WhenPressed(frc2::FunctionalCommand([this]{}, [this] { //on execute
@@ -64,7 +68,7 @@ void Shooter::SetupShooterButtons() {
 
 		m_Flywheel.Set(ControlMode::Velocity, 0);
 
-	}, [this] { return !m_FlyWheelToggle.Get(); }, {}));
+	}, [this] { return !GetFlyWheelToggleState(); }, {}));
 
 	m_FlyWheelToggle.WhenReleased(frc2::RunCommand([&] {
 
