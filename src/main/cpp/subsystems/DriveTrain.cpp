@@ -71,7 +71,7 @@ void DriveTrain::UseVelocityPID(){
 
 void DriveTrain::UseMagicPID(double max){
 	DebugOutF("WARNING:USING Magic PID");
-	DriveTrain::SetPID(0, 0.9, 0.0, 0.0, 0.0);
+	DriveTrain::SetPID(0, 10.0, 0.0, 0.0, 0.0);
 	
 	double cruiseP = max*kMAX_VELOCITY;
 

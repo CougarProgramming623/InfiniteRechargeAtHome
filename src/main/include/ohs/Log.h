@@ -24,11 +24,8 @@ namespace ohs623 {
 
 }
 
-
 #define OHS_TRACE(func)	ohs623::Log(ohs623::LogLevel::TRACE, func, __FILE__, __LINE__);
 #define OHS_DEBUG(func)	ohs623::Log(ohs623::LogLevel::DEBUG, func, __FILE__, __LINE__);
-#define OHS_INFO(func)	ohs623::Log(ohs623::LogLevel::INFO,  func, __FILE__, __LINE__);
+#define OHS_INFO](func)	ohs623::Log(ohs623::LogLevel::INFO,  func, __FILE__, __LINE__);
 #define OHS_WARN(func)	ohs623::Log(ohs623::LogLevel::WARN,  func, __FILE__, __LINE__);
 #define OHS_ERROR(func)	ohs623::Log(ohs623::LogLevel::ERROR, func, __FILE__, __LINE__);
-
-

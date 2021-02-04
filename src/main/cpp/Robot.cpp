@@ -155,6 +155,9 @@ void Robot::DisabledPeriodic() {
  * RobotContainer} class.
  */
 void Robot::AutonomousInit() {
+
+	frc::DriverStation::ReportWarning("Auto Init");
+
 	navx->ZeroYaw();
 	m_autonomousCommand = m_AutoManager.GetAuto();
 	frc2::CommandScheduler::GetInstance().Schedule(m_autonomousCommand);

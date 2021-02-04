@@ -1,5 +1,7 @@
 #include "AutoManager.h"
 #include "commands/EncoderDriveV.h"
+#include "commands/EncoderDriveM.h"
+#include "commands/EncoderDriveP.h"
 #include "commands/TurnToPosSlow.h"
 #include "subsystems/Shooter.h"
 #include "Robot.h"
@@ -52,7 +54,13 @@ void AutoManager::AutoInit(){
 	frc2::SequentialCommandGroup* onlyBackwards = new frc2::SequentialCommandGroup();
 	onlyBackwards->AddCommands(frc2::PrintCommand("Init"));
 	m_AutoMap["onlyBackwards"] = onlyBackwards;
+
+	frc2::SequentialCommandGroup* backUpTest = new frc2::SequentialCommandGroup();
+	backUpTest->AddCommands(frc2::PrintCommand("Init backUpTest"));
+	backUpTest->AddCommands(EncoderDriveV(50.0, 50.0, 0, 0.3));
 	
+	m_AutoMap["backUpTest"] = backUpTest;
+
 }
 
 void AutoManager::SetInUse(std::string setAuto) {
@@ -62,12 +70,12 @@ void AutoManager::SetInUse(std::string setAuto) {
 }
 
 frc2::Command* AutoManager::GetAuto() {
-	std::vector<std::unique_ptr<frc2::Command>> steps;
-	steps.emplace_back(new frc2::WaitCommand(units::second_t(m_Delay)));
-	steps.emplace_back(m_AutoMap[m_InUse]);
+	// std::vector<std::unique_ptr<frc2::Command>> steps;
+	// steps.emplace_back(new frc2::WaitCommand(units::second_t(m_Delay)));
+	// steps.emplace_back(m_AutoMap[m_InUse]);
 
-	return new frc2::SequentialCommandGroup(std::move(steps));
-	// return m_AutoMap[m_InUse];
+	// return new frc2::SequentialCommandGroup(std::move(steps));
+	return m_AutoMap[m_InUse];
 }
 
 void AutoManager::RunAuto(){
