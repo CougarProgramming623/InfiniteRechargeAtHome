@@ -35,8 +35,8 @@ public:
 
 private:
 
-	const double HORIZONTAL_CALIBRATION = 36.0/31.0; 
-	const double VERTICAL_CALIBRATION = 36.0/43.0;
+	const double HORIZONTAL_CALIBRATION = 5; //36.0/31.0; 
+	const double VERTICAL_CALIBRATION = 1;   //36.0/43.0;
 	/*current known calibration values for 'saber'
 	Vertical Traverse [position: 36.0/31.5 | Velocity: 36.0/43.0 | Magic: ?/?]
 	Horizontal Traverse [position: ?/? | Velocity: 36.0/31.0 | Magic: ?/?]

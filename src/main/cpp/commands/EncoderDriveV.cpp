@@ -39,8 +39,8 @@ void EncoderDriveV::Initialize() {
 	Robot::Get().GetDriveTrain().SetBrakeMode(false);//brakeMode may cause drive to stutter
 
 	//debug
-	DebugOutF("m_X: " + std::to_string(m_X)); //please print
-	DebugOutF("m_Y: " + std::to_string(m_Y)); //please print
+	DebugOutF("m_X: " + std::to_string(m_X));
+	DebugOutF("m_Y: " + std::to_string(m_Y));
 
 }//starts motor turn
 
@@ -58,15 +58,25 @@ bool EncoderDriveV::IsFinished() {
 
 void EncoderDriveV::Execute() {
 	
-	int max = abs(m_X)+abs(m_A)+abs(m_Y);//used to convert a speed to a number between -1 and 1 to be multiplied by maxSpeed so target velcity are always within max speed
+	double max = abs(m_X)+abs(m_A)+abs(m_Y);//used to convert a speed to a number between -1 and 1 to be multiplied by maxSpeed so target velcity are always within max speed
 	double maxSpeed = m_Max*(6380/60/10*2048); //% of allowable max speed to run the bot at
 	//sets motor velocities
 
-	Robot::Get().GetDriveTrain().GetLFront()->Set(ControlMode::Velocity, (m_Y + m_X + m_A)/max*maxSpeed );
-	Robot::Get().GetDriveTrain().GetRFront()->Set(ControlMode::Velocity, (m_Y - m_X - m_A)/max*maxSpeed );
-	Robot::Get().GetDriveTrain().GetLBack()->Set(ControlMode::Velocity, (m_Y - m_X + m_A)/max*maxSpeed );
-	Robot::Get().GetDriveTrain().GetRBack()->Set(ControlMode::Velocity, (m_Y + m_X - m_A)/max*maxSpeed );
+	double LFrontSpeed = (m_Y + m_X + m_A)/max*maxSpeed;
+	double RFrontSpeed = (m_Y - m_X - m_A)/max*maxSpeed;
+	double LBackSpeed = (m_Y - m_X + m_A)/max*maxSpeed;
+	double RBackSpeed = (m_Y + m_X - m_A)/max*maxSpeed;
+
+	Robot::Get().GetDriveTrain().GetLFront()->Set(ControlMode::Velocity, LFrontSpeed);
+	Robot::Get().GetDriveTrain().GetRFront()->Set(ControlMode::Velocity, RFrontSpeed);
+	Robot::Get().GetDriveTrain().GetLBack()->Set(ControlMode::Velocity,  LBackSpeed);
+	Robot::Get().GetDriveTrain().GetRBack()->Set(ControlMode::Velocity,  RBackSpeed);
 	//end set motor velocities
+
+	DebugOutF("LFront: " + std::to_string(LFrontSpeed));
+	DebugOutF("RFront: " + std::to_string(RFrontSpeed));
+	DebugOutF("LBack: " + std::to_string(LBackSpeed));
+	DebugOutF("RBack: " + std::to_string(RBackSpeed));
 
 }//execute command (does nothing, waits)
 

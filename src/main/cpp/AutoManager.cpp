@@ -2,6 +2,7 @@
 #include "commands/EncoderDriveV.h"
 #include "commands/EncoderDriveM.h"
 #include "commands/EncoderDriveP.h"
+#include "commands/TurnToPosPID.h"
 #include "commands/TurnToPosSlow.h"
 #include "subsystems/Shooter.h"
 #include "Robot.h"
@@ -57,8 +58,8 @@ void AutoManager::AutoInit(){
 
 	frc2::SequentialCommandGroup* backUpTest = new frc2::SequentialCommandGroup();
 	backUpTest->AddCommands(frc2::PrintCommand("Init backUpTest"));
-	backUpTest->AddCommands(EncoderDriveV(50.0, 50.0, 0, 0.3));
-	
+	// backUpTest->AddCommands(EncoderDriveV(0.0, 0.0, 90, 0.3));
+	backUpTest->AddCommands(TurnToPosPID(45));
 	m_AutoMap["backUpTest"] = backUpTest;
 
 }
