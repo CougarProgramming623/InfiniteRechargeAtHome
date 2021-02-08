@@ -18,6 +18,8 @@
 #include "ohs/RobotID.h"
 #include "ohs/Log.h"
 
+#include "Trajectory.h"
+
 
 
 namespace ohs2020 {
