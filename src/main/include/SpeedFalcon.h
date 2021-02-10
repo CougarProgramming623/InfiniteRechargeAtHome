@@ -2,7 +2,7 @@
 
 #include <frc/SpeedController.h>
 
-class SpeedFalcon : frc::SpeedController {
+class SpeedFalcon : public frc::SpeedController {
 
 	void Set(double speed) {};
 	

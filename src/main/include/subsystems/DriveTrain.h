@@ -16,6 +16,7 @@
 #include <units/voltage.h>
 
 #include "SpeedFalcon.h"
+#include <frc/SpeedController.h>
 
 namespace ohs2020 {	
  
@@ -58,6 +59,7 @@ private:
 	frc2::PIDController* m_TurnController;
 
 	SpeedFalcon m_left1, m_left2;
+	SpeedFalcon m_right1, m_right2;
 	/*
 	frc2::PIDController m_XController;
 	frc2::PIDController m_YController;
@@ -67,15 +69,15 @@ private:
 	*/
 
 	 // The motors on the left side of the drive
-  	frc::SpeedControllerGroup m_leftMotors{&m_left1, &m_left2};
+  	frc::SpeedControllerGroup m_leftMotors{m_left1, m_left2};
  	 // The motors on the right side of the drive
 	frc::SpeedControllerGroup m_rightMotors{m_right1, m_right2};
 	// The robot's drive
 	frc::DifferentialDrive m_drive{m_leftMotors, m_rightMotors};
 	// The left-side drive encoder
-	frc::Encoder m_leftEncoder;
-	// The right-side drive encoder
-	frc::Encoder m_rightEncoder;
+	// frc::Encoder m_leftEncoder;
+	// // The right-side drive encoder
+	// frc::Encoder m_rightEncoder;
 };
 
 }//namespace
