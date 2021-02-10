@@ -43,23 +43,27 @@ public:
 	void SetBrakeMode(bool);
 	
 	//getters for direct access to motors
-	BaseTalon* GetLFront() { return m_FrontLeft.get(); }
-	BaseTalon* GetRFront() { return m_FrontRight.get(); }
-	BaseTalon* GetLBack() { return m_BackLeft.get(); }
-	BaseTalon* GetRBack() { return m_BackRight.get(); }
+	BaseTalon* GetLFront() { return &m_FrontLeft; }
+	BaseTalon* GetRFront() { return &m_FrontRight; }
+	BaseTalon* GetLBack() { return &m_BackLeft; }
+	BaseTalon* GetRBack() { return &m_BackRight; }
 
 protected:
 	
 	//virtual std::unique_ptr<frc2::Command> TransferOwnership() && override;
 
 private:
-	std::unique_ptr<BaseTalon> m_FrontLeft, m_FrontRight;
-	std::unique_ptr<BaseTalon> m_BackLeft, m_BackRight;
+	WPI_TalonFX m_FrontLeft{31};
+	WPI_TalonFX m_FrontRight{32};
+	WPI_TalonFX m_BackLeft{34};
+	WPI_TalonFX m_BackRight{33};
 
 	frc2::PIDController* m_TurnController;
 
-	SpeedFalcon m_left1, m_left2;
-	SpeedFalcon m_right1, m_right2;
+	SpeedFalcon m_left1{m_FrontLeft};
+	SpeedFalcon m_left2{m_BackLeft};
+	SpeedFalcon m_right1{m_FrontRight};
+	SpeedFalcon m_right2{m_BackRight};
 	/*
 	frc2::PIDController m_XController;
 	frc2::PIDController m_YController;

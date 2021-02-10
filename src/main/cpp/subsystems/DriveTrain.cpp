@@ -25,16 +25,8 @@ using namespace ohs623;
 
 DriveTrain::DriveTrain() {
 	OHS_DEBUG([](auto& f) { f << "DriveTrain::DriveTrain()"; });
-	m_FrontLeft.reset(RobotID::InitMotor(FRONT_LEFT));
-	m_FrontRight.reset(RobotID::InitMotor(FRONT_RIGHT));
-	m_BackLeft.reset(RobotID::InitMotor(BACK_LEFT));
-	m_BackRight.reset(RobotID::InitMotor(BACK_RIGHT));
-
-	m_FrontRight->SetInverted(true);
-	m_BackRight->SetInverted(true);
-
-	RemoveRegistry(m_FrontLeft.get(), m_FrontRight.get(), m_BackLeft.get(), m_BackRight.get());
-
+	m_FrontRight.SetInverted(true);
+	m_BackRight.SetInverted(true);
 }
   
 void DriveTrain::Init(){
@@ -147,17 +139,17 @@ void DriveTrain::CartesianDrive(double y, double x, double rotation, double angl
 
 	if (Robot::Get().GetOI().GetVelocityMode()) {
 		// DebugOutF("Using V");
-		m_FrontLeft->Set(ControlMode::Velocity, wheelSpeeds[kFRONT_LEFT] * kMAX_VELOCITY);
-		m_BackLeft->Set(ControlMode::Velocity, wheelSpeeds[kBACK_LEFT] * kMAX_VELOCITY);
-		m_FrontRight->Set(ControlMode::Velocity, wheelSpeeds[kFRONT_RIGHT] * kMAX_VELOCITY);
-		m_BackRight->Set(ControlMode::Velocity, wheelSpeeds[kBACK_RIGHT] * kMAX_VELOCITY);
+		m_FrontLeft.Set(ControlMode::Velocity, wheelSpeeds[kFRONT_LEFT] * kMAX_VELOCITY);
+		m_BackLeft.Set(ControlMode::Velocity, wheelSpeeds[kBACK_LEFT] * kMAX_VELOCITY);
+		m_FrontRight.Set(ControlMode::Velocity, wheelSpeeds[kFRONT_RIGHT] * kMAX_VELOCITY);
+		m_BackRight.Set(ControlMode::Velocity, wheelSpeeds[kBACK_RIGHT] * kMAX_VELOCITY);
 
 	} else {
 		
-		m_FrontLeft->Set(ControlMode::PercentOutput, wheelSpeeds[kFRONT_LEFT]);
-		m_BackLeft->Set(ControlMode::PercentOutput, wheelSpeeds[kBACK_LEFT]);
-		m_FrontRight->Set(ControlMode::PercentOutput, wheelSpeeds[kFRONT_RIGHT]);
-		m_BackRight->Set(ControlMode::PercentOutput, wheelSpeeds[kBACK_RIGHT]);
+		m_FrontLeft.Set(ControlMode::PercentOutput, wheelSpeeds[kFRONT_LEFT]);
+		m_BackLeft.Set(ControlMode::PercentOutput, wheelSpeeds[kBACK_LEFT]);
+		m_FrontRight.Set(ControlMode::PercentOutput, wheelSpeeds[kFRONT_RIGHT]);
+		m_BackRight.Set(ControlMode::PercentOutput, wheelSpeeds[kBACK_RIGHT]);
 
 		//DebugOutF(std::to_string(wheelSpeeds[kFRONT_LEFT]));
 	}
