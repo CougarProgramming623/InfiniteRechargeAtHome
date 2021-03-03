@@ -41,17 +41,29 @@
 #include <units/volume.h>
 
 #include <frc/kinematics/DifferentialDriveOdometry.h>
+#include <frc/trajectory/TrajectoryConfig.h>
+#include <frc/trajectory/TrajectoryGenerator.h>
+#include <frc2/command/RamseteCommand.h>
+#include <frc2/command/SequentialCommandGroup.h>
+#include <frc2/command/Command.h>
+
 
 constexpr auto ks = 0.643_V;
 constexpr auto kv = 0.05 * 1_V * 1_s / 1_m; 
 constexpr auto ka = 0.00396 * 1_V * 1_s * 1_s / 1_m;
-constexpr double kpDriveVel = 0.000000000000000000000000000000000000000000372; //3.72-e42
+constexpr double kPDriveVel = 0.000000000000000000000000000000000000000000372; //3.72-e42
 
 constexpr auto kTrackwidth = 0.56_m;
-extern const frc::DifferentialDriveKinematics kDriveKinematics;
+const frc::DifferentialDriveKinematics kDriveKinematics{0.56_m};
 
 constexpr auto kMaxSpeed = 1_mps;
 constexpr auto kMaxAcceleration = 1_mps_sq;
 
 constexpr double kRamseteB = 2;
-constexpr double kRamseteZera = 0.7;
+constexpr double kRamseteZeta = 0.7;
+
+namespace ohs2020 {
+
+frc2::Command* CreatePathFollow();
+
+}//namespace

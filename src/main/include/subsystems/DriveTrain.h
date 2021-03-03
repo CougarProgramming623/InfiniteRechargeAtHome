@@ -12,8 +12,11 @@
 #include <frc/drive/DifferentialDrive.h>
 #include <frc/geometry/Pose2d.h>
 #include <frc/kinematics/DifferentialDriveOdometry.h>
+#include <frc/kinematics/DifferentialDriveWheelSpeeds.h>
 #include <frc2/command/SubsystemBase.h>
 #include <units/voltage.h>
+#include <frc/geometry/Rotation2d.h>
+
 
 #include "SpeedFalcon.h"
 #include <frc/SpeedController.h>
@@ -41,6 +44,13 @@ public:
 	void UseMagicPID(double max);
 	void SetPID(double, double, double, double, double);
 	void SetBrakeMode(bool);
+	void Periodic();
+	frc::Pose2d GetPose();
+	void TankDriveVolts(units::volt_t, units::volt_t);
+	frc::DifferentialDriveWheelSpeeds GetWheelSpeeds();
+	void ResetOdometry(frc::Pose2d);
+
+	frc::DifferentialDriveOdometry* GetOdometry() { return &m_odometry; }
 	
 	//getters for direct access to motors
 	BaseTalon* GetLFront() { return &m_FrontLeft; }
@@ -82,6 +92,9 @@ private:
 	// frc::Encoder m_leftEncoder;
 	// // The right-side drive encoder
 	// frc::Encoder m_rightEncoder;
+
+	frc::DifferentialDriveOdometry m_odometry;
+
 };
 
 }//namespace

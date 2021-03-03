@@ -4,6 +4,7 @@
 #include "Robot.h"
 #include "ohs/RobotID.h"
 #include "ohs/Log.h"
+#include "commands/EncoderDriveP.h"
 
 #include <frc/smartdashboard/SendableRegistry.h>
 #include <frc/smartdashboard/SmartDashboard.h>
@@ -23,7 +24,7 @@ namespace ohs2020 {
 
 using namespace ohs623;
 
-DriveTrain::DriveTrain() {
+DriveTrain::DriveTrain() : m_odometry{ frc::Rotation2d(units::degree_t(Robot::Get().GetNavX()->GetYaw())) } {
 	OHS_DEBUG([](auto& f) { f << "DriveTrain::DriveTrain()"; });
 	m_FrontRight.SetInverted(true);
 	m_BackRight.SetInverted(true);
@@ -182,4 +183,31 @@ frc2::PIDCommand* DriveTrain::TurnToPos(double angle) {
 	frc2::PIDCommand* turnCmd = new frc2::PIDCommand(*m_TurnController, measurement, angle, output, wpi::ArrayRef<frc2::Subsystem*>(&Robot::Get().GetDriveTrain()));
 	return turnCmd;
 }
+
+	void DriveTrain::Periodic() {
+		m_odometry.Update(frc::Rotation2d(units::degree_t(Robot::Get().GetNavX()->GetYaw())),
+		units::meter_t(Robot::Get().GetDriveTrain().GetLFront()->GetSelectedSensorPosition() / CPI / 39.37),
+		units::meter_t(Robot::Get().GetDriveTrain().GetRFront()->GetSelectedSensorPosition() / CPI / 39.37));
+	}
+
+	frc::Pose2d DriveTrain::GetPose() { return m_odometry.GetPose(); }
+
+	void DriveTrain::TankDriveVolts(units::volt_t right, units::volt_t left) {
+		m_leftMotors.SetVoltage(left);
+		m_rightMotors.SetVoltage(-right);
+		m_drive.Feed();
+	}
+
+	void DriveTrain::ResetOdometry(frc::Pose2d pose) {
+		//todo - reset encoders
+		m_odometry.ResetPosition(pose, frc::Rotation2d(units::degree_t(Robot::Get().GetNavX()->GetYaw())));
+	}
+
+	frc::DifferentialDriveWheelSpeeds DriveTrain::GetWheelSpeeds() {
+		frc::DifferentialDriveWheelSpeeds speeds;
+		speeds.left = units::meter_t(Robot::Get().GetDriveTrain().GetLFront()->GetSelectedSensorVelocity() * 10 * CPI / 39.37) / 1_s;
+		speeds.right = units::meter_t(Robot::Get().GetDriveTrain().GetRFront()->GetSelectedSensorVelocity() * 10 * CPI / 39.37) / 1_s;
+		return speeds;
+	}
+
 }//namespace
