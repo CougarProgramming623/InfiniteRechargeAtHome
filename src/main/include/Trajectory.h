@@ -56,8 +56,8 @@ constexpr double kPDriveVel = 0.000000000000000000000000000000000000000000372; /
 constexpr auto kTrackwidth = 0.56_m;
 const frc::DifferentialDriveKinematics kDriveKinematics{0.56_m};
 
-constexpr auto kMaxSpeed = 1_mps;
-constexpr auto kMaxAcceleration = 1_mps_sq;
+constexpr auto kMaxSpeed = 100_mps;
+constexpr auto kMaxAcceleration = 100_mps_sq;
 
 constexpr double kRamseteB = 2;
 constexpr double kRamseteZeta = 0.7;

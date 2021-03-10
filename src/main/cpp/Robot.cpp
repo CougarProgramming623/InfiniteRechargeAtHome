@@ -33,6 +33,17 @@ Robot::Robot() {
 
 void Robot::RobotInit() {
 
+	DebugOutF("Robot Init Called");
+
+	try {
+		navx = new AHRS(SPI::Port::kMXP);
+	} catch (std::exception &ex){
+		std::string err = "Error instantiating navX MXP: ";
+		err += ex.what();
+		DebugOutF(err.c_str());
+	}
+	navx->ZeroYaw();
+
 	m_AutoManager.AutoInit();
 	Cob::Init();
 	m_DriveTrain.Init();
@@ -44,15 +55,7 @@ void Robot::RobotInit() {
 
 	RemoveRegistry(navx);
 
-	try {
-		navx = new AHRS(SPI::Port::kMXP);
-	} catch (std::exception &ex){
-		std::string err = "Error instantiating navX MXP: ";
-		err += ex.what();
-		DebugOutF(err.c_str());
-		
-	}
-	navx->ZeroYaw();
+	
 
 	m_Init = true;
 
@@ -156,7 +159,7 @@ void Robot::DisabledPeriodic() {
  */
 void Robot::AutonomousInit() {
 
-	frc::DriverStation::ReportWarning("Auto Init");
+	DebugOutF("Auto Init");
 
 	navx->ZeroYaw();
 	// m_autonomousCommand = m_AutoManager.GetAuto();

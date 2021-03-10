@@ -46,11 +46,11 @@ public:
 	void SetBrakeMode(bool);
 	void Periodic();
 	frc::Pose2d GetPose();
-	void TankDriveVolts(units::volt_t, units::volt_t);
 	frc::DifferentialDriveWheelSpeeds GetWheelSpeeds();
 	void ResetOdometry(frc::Pose2d);
+	void TankDriveVolts(units::volt_t right, units::volt_t left);
 
-	frc::DifferentialDriveOdometry* GetOdometry() { return &m_odometry; }
+	frc::DifferentialDriveOdometry* GetOdometry() { return m_odometry; }
 	
 	//getters for direct access to motors
 	BaseTalon* GetLFront() { return &m_FrontLeft; }
@@ -74,26 +74,14 @@ private:
 	SpeedFalcon m_left2{m_BackLeft};
 	SpeedFalcon m_right1{m_FrontRight};
 	SpeedFalcon m_right2{m_BackRight};
-	/*
-	frc2::PIDController m_XController;
-	frc2::PIDController m_YController;
-	frc::ProfiledPIDController<units::radians> m_ThetaController;
 
-	frc::MecanumDriveKinematics kinematics;
-	*/
-
-	 // The motors on the left side of the drive
+	// The motors on the left side of the drive
   	frc::SpeedControllerGroup m_leftMotors{m_left1, m_left2};
- 	 // The motors on the right side of the drive
+ 	// The motors on the right side of the drive
 	frc::SpeedControllerGroup m_rightMotors{m_right1, m_right2};
 	// The robot's drive
 	frc::DifferentialDrive m_drive{m_leftMotors, m_rightMotors};
-	// The left-side drive encoder
-	// frc::Encoder m_leftEncoder;
-	// // The right-side drive encoder
-	// frc::Encoder m_rightEncoder;
-
-	frc::DifferentialDriveOdometry m_odometry;
+	frc::DifferentialDriveOdometry* m_odometry;
 
 };
 

@@ -24,10 +24,13 @@ namespace ohs2020 {
 
 using namespace ohs623;
 
-DriveTrain::DriveTrain() : m_odometry{ frc::Rotation2d(units::degree_t(Robot::Get().GetNavX()->GetYaw())) } {
+DriveTrain::DriveTrain() {
 	OHS_DEBUG([](auto& f) { f << "DriveTrain::DriveTrain()"; });
 	m_FrontRight.SetInverted(true);
 	m_BackRight.SetInverted(true);
+
+	DebugOutF("DriveTrain Constructor Run");
+	
 }
   
 void DriveTrain::Init(){
@@ -36,6 +39,10 @@ void DriveTrain::Init(){
 	SetBrakeMode(true);
 
 	UseVelocityPID();
+
+	m_drive.StopMotor();
+
+	m_odometry = new DifferentialDriveOdometry(frc::Rotation2d(units::angle::degree_t(Robot::Get().GetNavX()->GetYaw())));
 }
 
 void DriveTrain::SetBrakeMode(bool on){
@@ -185,22 +192,22 @@ frc2::PIDCommand* DriveTrain::TurnToPos(double angle) {
 }
 
 	void DriveTrain::Periodic() {
-		m_odometry.Update(frc::Rotation2d(units::degree_t(Robot::Get().GetNavX()->GetYaw())),
+		m_odometry->Update(frc::Rotation2d(units::degree_t(Robot::Get().GetNavX()->GetYaw())),
 		units::meter_t(Robot::Get().GetDriveTrain().GetLFront()->GetSelectedSensorPosition() / CPI / 39.37),
 		units::meter_t(Robot::Get().GetDriveTrain().GetRFront()->GetSelectedSensorPosition() / CPI / 39.37));
 	}
 
-	frc::Pose2d DriveTrain::GetPose() { return m_odometry.GetPose(); }
+	frc::Pose2d DriveTrain::GetPose() { return m_odometry->GetPose(); }
 
 	void DriveTrain::TankDriveVolts(units::volt_t right, units::volt_t left) {
 		m_leftMotors.SetVoltage(left);
-		m_rightMotors.SetVoltage(-right);
+		m_rightMotors.SetVoltage(right);
 		m_drive.Feed();
 	}
 
 	void DriveTrain::ResetOdometry(frc::Pose2d pose) {
 		//todo - reset encoders
-		m_odometry.ResetPosition(pose, frc::Rotation2d(units::degree_t(Robot::Get().GetNavX()->GetYaw())));
+		// odometry.ResetPosition(pose, frc::Rotation2d(units::degree_t(Robot::Get().GetNavX()->GetYaw())));
 	}
 
 	frc::DifferentialDriveWheelSpeeds DriveTrain::GetWheelSpeeds() {
