@@ -200,8 +200,8 @@ frc2::PIDCommand* DriveTrain::TurnToPos(double angle) {
 	frc::Pose2d DriveTrain::GetPose() { return m_odometry->GetPose(); }
 
 	void DriveTrain::TankDriveVolts(units::volt_t right, units::volt_t left) {
-		m_leftMotors.SetVoltage(left);
-		m_rightMotors.SetVoltage(right);
+		m_leftMotors.SetVoltage(-left / 2);
+		m_rightMotors.SetVoltage(right / 2);
 		m_drive.Feed();
 	}
 

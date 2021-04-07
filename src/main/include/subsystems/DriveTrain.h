@@ -58,6 +58,8 @@ public:
 	BaseTalon* GetLBack() { return &m_BackLeft; }
 	BaseTalon* GetRBack() { return &m_BackRight; }
 
+	void ResetMDrive() { m_drive.SetSafetyEnabled(false); }
+
 protected:
 	
 	//virtual std::unique_ptr<frc2::Command> TransferOwnership() && override;

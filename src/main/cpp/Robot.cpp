@@ -159,7 +159,7 @@ void Robot::DisabledPeriodic() {
  */
 void Robot::AutonomousInit() {
 
-	DebugOutF("Auto Init");
+	DebugOutF("Autonomous Init");
 
 	navx->ZeroYaw();
 	// m_autonomousCommand = m_AutoManager.GetAuto();

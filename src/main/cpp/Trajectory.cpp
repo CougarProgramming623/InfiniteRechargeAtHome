@@ -7,6 +7,9 @@
 namespace ohs2020 {
 
 frc2::Command* CreatePathFollow() {
+
+	Robot::Get().GetDriveTrain().ResetMDrive();
+
 	frc::DifferentialDriveVoltageConstraint autoVoltageContraint(
 		frc::SimpleMotorFeedforward<units::meters>(ks, kv, ka),
 		kDriveKinematics, 10_V
@@ -20,9 +23,9 @@ frc2::Command* CreatePathFollow() {
 		// Start at the origin facing the +X direction
 		frc::Pose2d(0_m, 0_m, frc::Rotation2d(0_deg)),
 		// Pass through these two interior waypoints, making an 's' curve path
-		{frc::Translation2d(2_m, 0_m), frc::Translation2d(2_m, 0_m)},
+		{frc::Translation2d(1_m, 0_m), frc::Translation2d(2_m, 0_m)},
 		// End 3 meters straight ahead of where we started, facing forward
-		frc::Pose2d(4_m, 0_m, frc::Rotation2d(0_deg)),
+		frc::Pose2d(3_m, 0_m, frc::Rotation2d(0_deg)),
 		// Pass the config
 		config);
 
@@ -43,7 +46,7 @@ frc2::Command* CreatePathFollow() {
 			std::move(ramseteCommand),
 			frc2::InstantCommand([] {
 				
-				DebugOutF("Pathweaver Finished");
+					DebugOutF("Pathweaver Finished");
 				Robot::Get().GetDriveTrain().TankDriveVolts(0_V, 0_V); 
 				
 				}, {}));
