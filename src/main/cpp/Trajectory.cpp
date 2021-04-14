@@ -39,7 +39,7 @@ frc2::Command* CreatePathFollow() {
 		[] { return Robot::Get().GetDriveTrain().GetWheelSpeeds(); },
 		frc2::PIDController(kPDriveVel, 0, 0),
 		frc2::PIDController(kPDriveVel, 0, 0),
-		[](auto left, auto right) { Robot::Get().GetDriveTrain().TankDriveVolts(left, right); },
+		[](auto left, auto right) { Robot::Get().GetDriveTrain().TankDriveVolts(right, left); },
 		{});
 
 		return new frc2::SequentialCommandGroup(

@@ -49,15 +49,15 @@
 
 
 constexpr auto ks = 0.643_V;
-constexpr auto kv = 0.05 * 1_V * 1_s / 1_m; 
-constexpr auto ka = 0.00396 * 1_V * 1_s * 1_s / 1_m;
-constexpr double kPDriveVel = 0.000000000000000000000000000000000000000000372; //3.72-e42
+constexpr auto kv = 1.97 * 1_V * 1_s / 1_m; //0.05
+constexpr auto ka = 0.3 * 1_V * 1_s * 1_s / 1_m; //0.00396
+constexpr double kPDriveVel = 0.0658; //8.5; //0.000000000000000000000000000000000000000000372; //3.72-e42
 
 constexpr auto kTrackwidth = 0.56_m;
 const frc::DifferentialDriveKinematics kDriveKinematics{0.56_m};
 
-constexpr auto kMaxSpeed = 1_mps;
-constexpr auto kMaxAcceleration = 1_mps_sq;
+constexpr auto kMaxSpeed = 0.1_mps;
+constexpr auto kMaxAcceleration = 0.1_mps_sq;
 
 constexpr double kRamseteB = 2;
 constexpr double kRamseteZeta = 0.7;

@@ -193,15 +193,19 @@ frc2::PIDCommand* DriveTrain::TurnToPos(double angle) {
 
 	void DriveTrain::Periodic() {
 		m_odometry->Update(frc::Rotation2d(units::degree_t(Robot::Get().GetNavX()->GetYaw())),
-		units::meter_t(Robot::Get().GetDriveTrain().GetLFront()->GetSelectedSensorPosition() / CPI / 39.37),
-		units::meter_t(Robot::Get().GetDriveTrain().GetRFront()->GetSelectedSensorPosition() / CPI / 39.37));
+			units::meter_t(-Robot::Get().GetDriveTrain().GetLFront()->GetSelectedSensorPosition() / CPI / 39.37),
+			units::meter_t(Robot::Get().GetDriveTrain().GetRFront()->GetSelectedSensorPosition() / CPI / 39.37));
 	}
 
 	frc::Pose2d DriveTrain::GetPose() { return m_odometry->GetPose(); }
 
 	void DriveTrain::TankDriveVolts(units::volt_t right, units::volt_t left) {
-		m_leftMotors.SetVoltage(-left / 2);
-		m_rightMotors.SetVoltage(right / 2);
+		m_rightMotors.SetVoltage(right / 1);
+		m_leftMotors.SetVoltage(-left / 1);
+
+			DebugOutF("Right Speed: " + std::to_string(right.value() / 1));
+			DebugOutF("Left Speed: " + std::to_string(-left.value() / 1));
+
 		m_drive.Feed();
 	}
 
