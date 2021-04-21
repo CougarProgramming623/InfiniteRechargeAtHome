@@ -6,6 +6,7 @@
 
 #include <frc/geometry/Rotation2d.h>
 #include <frc/kinematics/DifferentialDriveWheelSpeeds.h>
+#include <frc2/command/PrintCommand.h>
 
 using namespace DriveConstants;
 
@@ -16,23 +17,27 @@ DriveSubsystem::DriveSubsystem()
       m_right2{kRightMotor2Port},
       m_leftEncoder{kLeftEncoderPorts[0], kLeftEncoderPorts[1]},
       m_rightEncoder{kRightEncoderPorts[0], kRightEncoderPorts[1]},
-      m_odometry{m_gyro.GetRotation2d()} {
+      m_gyro{SPI::Port::kMXP},
+      m_odometry{Rotation2d(units::degree_t(m_gyro.GetAngle()))} {
   // Set the distance per pulse for the encoders
   m_leftEncoder.SetDistancePerPulse(kEncoderDistancePerPulse);
   m_rightEncoder.SetDistancePerPulse(kEncoderDistancePerPulse);
+  
 
   ResetEncoders();
 }
 
 void DriveSubsystem::Periodic() {
   // Implementation of subsystem periodic method goes here.
-  m_odometry.Update(m_gyro.GetRotation2d(),
+  m_odometry.Update(Rotation2d(units::degree_t(m_gyro.GetAngle())),
                     units::meter_t(m_leftEncoder.GetDistance()),
                     units::meter_t(m_rightEncoder.GetDistance()));
 }
 
 void DriveSubsystem::ArcadeDrive(double fwd, double rot) {
   m_drive.ArcadeDrive(fwd, rot);
+  frc2::CommandScheduler::GetInstance().Schedule(new frc2::PrintCommand("Forward: " + std::to_string(fwd)));
+  frc2::CommandScheduler::GetInstance().Schedule(new frc2::PrintCommand("Rotation: " + std::to_string(rot)));
 }
 
 void DriveSubsystem::TankDriveVolts(units::volt_t left, units::volt_t right) {
@@ -62,9 +67,9 @@ void DriveSubsystem::SetMaxOutput(double maxOutput) {
   m_drive.SetMaxOutput(maxOutput);
 }
 
-units::degree_t DriveSubsystem::GetHeading() const {
-  return m_gyro.GetRotation2d().Degrees();
-}
+units::degree_t DriveSubsystem::GetHeading() {
+  return units::degree_t(m_gyro.GetAngle());
+  }
 
 double DriveSubsystem::GetTurnRate() {
   return -m_gyro.GetRate();
@@ -81,5 +86,5 @@ frc::DifferentialDriveWheelSpeeds DriveSubsystem::GetWheelSpeeds() {
 
 void DriveSubsystem::ResetOdometry(frc::Pose2d pose) {
   ResetEncoders();
-  m_odometry.ResetPosition(pose, m_gyro.GetRotation2d());
+  m_odometry.ResetPosition(pose, Rotation2d(units::degree_t(m_gyro.GetAngle())));
 }

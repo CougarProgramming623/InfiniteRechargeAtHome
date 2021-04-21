@@ -16,6 +16,7 @@
 #include <frc/Talon.h>
 
 #include "Constants.h"
+#include <AHRS.h>
 
 class DriveSubsystem : public frc2::SubsystemBase {
  public:
@@ -83,7 +84,7 @@ class DriveSubsystem : public frc2::SubsystemBase {
    *
    * @return the robot's heading in degrees, from -180 to 180
    */
-  units::degree_t GetHeading() const;
+  units::degree_t GetHeading();
 
   /**
    * Returns the turn rate of the robot.
@@ -113,7 +114,7 @@ class DriveSubsystem : public frc2::SubsystemBase {
    */
   void ResetOdometry(frc::Pose2d pose);
 
- private:
+ public:
   // Components (e.g. motor controllers and sensors) should generally be
   // declared private and exposed only through public methods.
 
@@ -139,7 +140,7 @@ class DriveSubsystem : public frc2::SubsystemBase {
   frc::Encoder m_rightEncoder;
 
   // The gyro sensor
-  frc::ADXRS450_Gyro m_gyro;
+  AHRS m_gyro;
 
   // Odometry class for tracking robot pose
   frc::DifferentialDriveOdometry m_odometry;

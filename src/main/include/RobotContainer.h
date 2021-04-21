@@ -12,6 +12,7 @@
 #include <frc2/command/PIDCommand.h>
 #include <frc2/command/ParallelRaceGroup.h>
 #include <frc2/command/RunCommand.h>
+#include <frc/Joystick.h>
 
 #include "Constants.h"
 #include "subsystems/DriveSubsystem.h"
@@ -28,6 +29,9 @@ class RobotContainer {
   RobotContainer();
 
   frc2::Command* GetAutonomousCommand();
+
+  frc::Joystick m_DriverJoystick = frc::Joystick(0);
+  frc::Joystick m_ButtonBoard = frc::Joystick(1);
 
  private:
   // The driver's controller
@@ -47,4 +51,5 @@ class RobotContainer {
   frc::SendableChooser<frc2::Command*> m_chooser;
 
   void ConfigureButtonBindings();
+  
 };

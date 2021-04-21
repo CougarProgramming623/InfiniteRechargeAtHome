@@ -28,9 +28,14 @@ RobotContainer::RobotContainer() {
   // Set up default drive command
   m_drive.SetDefaultCommand(frc2::RunCommand(
       [this] {
-        m_drive.ArcadeDrive(
-            m_driverController.GetY(frc::GenericHID::kLeftHand),
-            m_driverController.GetX(frc::GenericHID::kRightHand));
+        // m_drive.ArcadeDrive(
+        //     m_DriverJoystick.GetY(),
+        //     m_DriverJoystick.GetX());
+        m_drive.m_drive.Feed();
+        m_drive.m_leftMotor->Set(m_DriverJoystick.GetY());
+        m_drive.m_rightMotor->Set(m_DriverJoystick.GetX());
+
+       
       },
       {&m_drive}));
 }
@@ -39,9 +44,8 @@ void RobotContainer::ConfigureButtonBindings() {
   // Configure your button bindings here
 
   // While holding the shoulder button, drive at half speed
-  frc2::JoystickButton(&m_driverController, 1)
-      .WhenPressed(&m_driveHalfSpeed)
-      .WhenReleased(&m_driveFullSpeed);
+  frc2::Button([]{return true;})
+      .WhenPressed(&m_driveFullSpeed);
 }
 
 frc2::Command* RobotContainer::GetAutonomousCommand() {
