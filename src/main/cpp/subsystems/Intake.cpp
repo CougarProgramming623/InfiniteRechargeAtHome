@@ -16,10 +16,9 @@ Intake::Intake() :
 
 	m_IntakeIn([&] 		{return Robot::Get().GetOI().GetButtonBoard().GetRawButton(0);	}),
 	m_IntakeOut([&] 	{return Robot::Get().GetOI().GetButtonBoard().GetRawButton(0);	})
+
 {
-
-
-
+	m_IntakeMover.ConfigSelectedFeedbackSensor(FeedbackDevice::Analog, 0, 10);
 }//constructor
 
 void Intake::Init() {
@@ -44,7 +43,10 @@ void Intake::MoveIntake() {
 		m_IntakeMover.Set(ControlMode::PercentOutput, 0);
 		DebugOutF("Up Stopped");
 	}, {}));
-
 }//MoveIntake
+
+void Intake::Tick() {
+	DebugOutF(" " + m_IntakeMover.GetSensorCollection().GetAnalogIn());
+}
 
 }//namespace

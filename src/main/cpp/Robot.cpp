@@ -82,6 +82,7 @@ void Robot::RobotPeriodic() {
 	Cob::InMesUpdate();
 
 	frc2::CommandScheduler::GetInstance().Run();
+	Intake::Tick();
 
 	Cob::PushValue(CobKey::IN_USE_AUTO, m_AutoManager.GetInUse());
 	Cob::PushValue(CobKey::ROTATION, navx->GetYaw());
