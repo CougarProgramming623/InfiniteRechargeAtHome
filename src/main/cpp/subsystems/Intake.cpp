@@ -28,19 +28,19 @@ void Intake::Init() {
 
 void Intake::MoveIntake() {
 	m_IntakeDown.WhileHeld(frc2::RunCommand([&] {
-		m_IntakeMover.Set(ControlMode::PercentOutput, 0.1);
+		m_IntakeMover.Set(ControlMode::PercentOutput, 0.25);
 		DebugOutF("Intake Moving Down");
 	}, {}));
-	m_IntakeDown.WhenReleased(frc2::RunCommand([&] {
+	m_IntakeDown.WhenReleased(frc2::InstantCommand([&] {
 		m_IntakeMover.Set(ControlMode::PercentOutput, 0);
 		DebugOutF("Down Stopped");
 	}, {}));
 
 	m_IntakeUp.WhileHeld(frc2::RunCommand([&] {
-		m_IntakeMover.Set(ControlMode::PercentOutput, -0.1);
+		m_IntakeMover.Set(ControlMode::PercentOutput, -0.25);
 		DebugOutF("Intake Moving Up");
 	}, {}));
-	m_IntakeUp.WhenReleased(frc2::RunCommand([&] {
+	m_IntakeUp.WhenReleased(frc2::InstantCommand([&] {
 		m_IntakeMover.Set(ControlMode::PercentOutput, 0);
 		DebugOutF("Up Stopped");
 	}, {}));
