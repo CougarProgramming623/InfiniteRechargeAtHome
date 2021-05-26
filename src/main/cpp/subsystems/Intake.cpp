@@ -44,11 +44,11 @@ void Intake::Init() {
 
 void Intake::SetPositionButton() {
 	m_IntakeDown.WhileHeld(frc2::RunCommand([&] {
-		 m_IntakePositioner.Set(ControlMode::PercentOutput, -1);
+		 //m_IntakePositioner.Set(ControlMode::PercentOutput, -1);
 		 DebugOutF("DOWN");
 	},{}));
 	m_IntakeStowed.WhileHeld(frc2::RunCommand([&] {
-		m_IntakePositioner.Set(ControlMode::PercentOutput, 1);
+		//m_IntakePositioner.Set(ControlMode::PercentOutput, 1);
 		DebugOutF("UP");
 	},{}));
 
@@ -58,12 +58,12 @@ void Intake::SetPositionButton() {
 		lastSwitch = m_IntakePositioner.IsFwdLimitSwitchClosed();
 	}, [this] {
 		if(lastSwitch){
-			m_IntakePositioner.Set(ControlMode::PercentOutput, -1);
+			//m_IntakePositioner.Set(ControlMode::PercentOutput, -1);
 		} else {
-			m_IntakePositioner.Set(ControlMode::PercentOutput, 1);
+			//m_IntakePositioner.Set(ControlMode::PercentOutput, 1);
 		}
 	}, [this] (bool f) { //on end
-        m_IntakePositioner.Set(ControlMode::PercentOutput, 0);
+        //m_IntakePositioner.Set(ControlMode::PercentOutput, 0);
 	}, [this] { //is finished
 		DebugOutF(std::to_string(!m_MiddleLimit.Get()));
 		return !m_MiddleLimit.Get();

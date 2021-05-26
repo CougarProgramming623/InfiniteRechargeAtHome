@@ -138,10 +138,10 @@ void DriveTrain::CartesianDrive(double y, double x, double rotation, double angl
 	input.Rotate(angle);
 	double wheelSpeeds[4];
 	
-	wheelSpeeds[kFRONT_LEFT] = input.y + input.x + rotation;
-	wheelSpeeds[kFRONT_RIGHT] = input.y - input.x - rotation;
-	wheelSpeeds[kBACK_LEFT] = input.y - input.x + rotation;
-	wheelSpeeds[kBACK_RIGHT] = input.y + input.x - rotation;
+	wheelSpeeds[kFRONT_LEFT] = (input.y + input.x + rotation) / 7;
+	wheelSpeeds[kFRONT_RIGHT] = (input.y - input.x - rotation) / 7;
+	wheelSpeeds[kBACK_LEFT] = (input.y - input.x + rotation) / 7;
+	wheelSpeeds[kBACK_RIGHT] = (input.y + input.x - rotation) / 7;
 
 	Normalize(wheelSpeeds);
 
