@@ -39,8 +39,8 @@ void Robot::RobotInit() {
 	m_oi.Init();
 	m_shooter.Init();
 	m_climb.Init();
-	Intake* intake = new Intake();
-	intake->Init();
+	m_intake = new Intake();
+	m_intake->Init();
 
 	RemoveRegistry(navx);
 
@@ -82,7 +82,7 @@ void Robot::RobotPeriodic() {
 	Cob::InMesUpdate();
 
 	frc2::CommandScheduler::GetInstance().Run();
-	Intake::Tick();
+	m_intake->Tick();
 
 	Cob::PushValue(CobKey::IN_USE_AUTO, m_AutoManager.GetInUse());
 	Cob::PushValue(CobKey::ROTATION, navx->GetYaw());

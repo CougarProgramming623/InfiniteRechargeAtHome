@@ -46,7 +46,10 @@ void Intake::MoveIntake() {
 }//MoveIntake
 
 void Intake::Tick() {
-	DebugOutF(" " + m_IntakeMover.GetSensorCollection().GetAnalogIn());
+	int position = m_IntakeMover.GetSelectedSensorVelocity();
+	Cob::PushValue(CobKey::INTAKE_POSITION, position);
+	OHS_DEBUG([&] (auto &f) { f << "position: " << position;});
+
 }
 
 }//namespace

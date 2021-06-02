@@ -66,6 +66,7 @@ private:
 	Shooter m_shooter;
 	// ohsIntake m_intake;
 	Climb m_climb;
+	Intake* m_intake;
 	int m_CobCheck;
 
 	static const int kLength = 140; // **test**
