@@ -24,7 +24,7 @@ m_HighConveyor(RobotID::GetID(HIGH_TRANSPORT)),
 m_FlyWheelEncoder(RobotID::GetID(FLYWHEEL)),
 
 
-m_Launcher( [&] 		{ return Robot::Get().GetOI().GetButtonBoard().GetRawButton(2); 	}),
+m_Launcher( [&] 		{ return Robot::Get().GetOI().GetButtonBoard().GetRawButton(2); }),
 m_FlyWheelToggle([&] 	{ return Robot::Get().GetOI().GetButtonBoard().GetRawButton(4);	}), 
 m_ConveyorToggle( [&] { return Robot::Get().GetOI().GetButtonBoard().GetRawButton(15); 	}),
 m_ReverseFeeder( [&] { return Robot::Get().GetOI().GetButtonBoard().GetRawButton(14); 	}),
