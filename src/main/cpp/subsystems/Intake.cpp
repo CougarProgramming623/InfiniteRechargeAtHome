@@ -21,11 +21,11 @@ Intake::Intake() :
 	m_IntakeOut([&] 	{return Robot::Get().GetOI().GetButtonBoard().GetRawButton(11);	})
 
 {
-	ctre::phoenix::ErrorCode error = m_IntakeMover.ConfigSelectedFeedbackSensor(FeedbackDevice::QuadEncoder, 0, 100);
+	//ctre::phoenix::ErrorCode error = m_IntakeMover.ConfigSelectedFeedbackSensor(FeedbackDevice::QuadEncoder, 0, 100);
 	
-	std::stringstream buffer;
-	buffer << "error: " << error;
-	DebugOutF(buffer.str());
+	//std::stringstream buffer;
+	//buffer << "error: " << error;
+	//DebugOutF(buffer.str());
 }//constructor
 
 
@@ -36,22 +36,22 @@ void Intake::Init() {
 
 void Intake::MoveIntakeUpDown() {
 	m_IntakeDown.WhileHeld(frc2::RunCommand([&] {
-		m_IntakeMover.Set(ControlMode::PercentOutput, 0.25);
+		m_IntakeMover.Set(ControlMode::Position, 968130);
 		DebugOutF("Intake Moving Down");
 	}, {}));
 	m_IntakeDown.WhenReleased(frc2::InstantCommand([&] {
-		m_IntakeMover.Set(ControlMode::PercentOutput, 0);
+		m_IntakeMover.Set(ControlMode::Position, 1217316);
 		DebugOutF("Down Stopped");
 	}, {}));
 
-	m_IntakeUp.WhileHeld(frc2::RunCommand([&] {
-		m_IntakeMover.Set(ControlMode::PercentOutput, -0.25);
+	/*m_IntakeUp.WhileHeld(frc2::RunCommand([&] {
+		m_IntakeMover.Set(ControlMode::Position, 1217316);
 		DebugOutF("Intake Moving Up");
 	}, {}));
 	m_IntakeUp.WhenReleased(frc2::InstantCommand([&] {
 		m_IntakeMover.Set(ControlMode::PercentOutput, 0);
 		DebugOutF("Up Stopped");
-	}, {}));
+	}, {}));*/
 }//MoveIntakeUpDown
 
 void Intake::MoveIntakeRoller() {
