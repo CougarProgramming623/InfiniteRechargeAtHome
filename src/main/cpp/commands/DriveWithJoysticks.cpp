@@ -1,7 +1,6 @@
 #include "commands/DriveWithJoysticks.h"
 #include "Robot.h"
 
-#include "ohs/Formatter.h"
 
 #include <wpi/ArrayRef.h>
 #include <frc2/command/PrintCommand.h>
@@ -33,9 +32,7 @@ namespace ohs2020 {
 		y = abs(y) <= 0.05f ? 0 : y;
 		rot = abs(rot) <= 0.025f ? 0 : rot;
 
-		ohs623::DefaultFormatter formatter;
-		formatter << "Drive values: stick: [" << x << ", " << y << ", " << rot << "] Is FOD " << Robot::Get().GetOI().IsFOD();
-		//frc::DriverStation::ReportError(formatter.c_str());
+		//wpi::outs() << "Drive values: stick: [" << x << ", " << y << ", " << rot << "] Is FOD " << Robot::Get().GetOI().IsFOD();
 
 		if (Robot::Get().GetOI().IsFOD()) {
 			Robot::Get().GetDriveTrain().CartesianDrive(-y, x, rot / 2, gyro);//Add in gyro later once the navax code is in

@@ -16,7 +16,6 @@
 #include "AutoManager.h"
 
 #include "ohs/RobotID.h"
-#include "ohs/Log.h"
 
 
 
@@ -47,10 +46,7 @@ void Robot::RobotInit() {
 	try {
 		navx = new AHRS(SPI::Port::kMXP);
 	} catch (std::exception &ex){
-		std::string err = "Error instantiating navX MXP: ";
-		err += ex.what();
-		DebugOutF(err.c_str());
-		
+		wpi::outs() << "Error instantiating navX MXP: " << ex.what() << "\n";
 	}
 	navx->ZeroYaw();
 
@@ -156,7 +152,7 @@ void Robot::DisabledPeriodic() {
  */
 void Robot::AutonomousInit() {
 
-	frc::DriverStation::ReportWarning("Auto Init");
+	wpi::outs() << "Auto Init";
 
 	navx->ZeroYaw();
 	m_autonomousCommand = m_AutoManager.GetAuto();
@@ -205,5 +201,5 @@ int main() {
 }
 
 bool CanAssertionsQuit() {
-	return true;//Maybe disable during competitions
+	return true; // Maybe disable during competitions
 }

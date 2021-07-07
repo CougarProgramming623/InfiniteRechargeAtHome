@@ -1,5 +1,4 @@
 #include "Cob.h"
-#include "ohs/Log.h"
 #include "Robot.h"
 
 #include <frc/DriverStation.h>
@@ -41,9 +40,7 @@ void SetDelayMess(const nt::NetworkTableEntry& entry){
 	//Robot::Get().GetAutoMan().SetDelay(entry.GetDouble(-1));
 	std::stringstream stream(entry.GetValue()->GetString());
 	double x = 0;
-	OHS_DEBUG([&] (auto &f) {f << "X before: " << x;});
 	stream >> x;
-	OHS_DEBUG([&] (auto &f) {f << "X after:" << x;});
 	Robot::Get().GetAutoMan().SetDelay(x);
 }
 
@@ -111,12 +108,8 @@ void Cob::InMesUpdate() {
 				// e.Delete();
 				e.SetString("--DELETED--");
 			} else {
-				OHS_ERROR([&](auto& f) {
-					f << "Name not in map: " << name << "\nMap is: ";
-					for (std::map<std::string, CobCallBack>::iterator it = s_InMap.begin(); it != s_InMap.end(); it++) {
-						f << it->first << " = " << it->second.operator bool();
-					}
-				});
+				// ERROR state - if cob is broken add some sort of check here
+				wpi::outs() << "name not in map: " << name << "\n";
 			}
 		}
 		
@@ -126,9 +119,8 @@ void Cob::InMesUpdate() {
 bool Cob::EnsureExists(CobKey key) {
 	if (s_Map.find(key) == s_Map.end()) {
 		//The value doesnt exist in the map
-		std::stringstream ss;
-		ss << "Failed to find registered key for CobKey value #" << static_cast<int>(key);
-		frc::DriverStation::ReportError(ss.str());
+		
+		wpi::outs() << "Failed to find registered key for CobKey value #" << static_cast<int>(key);
 		return false;
 	} else {
 		return true;//The value exists

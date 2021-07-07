@@ -1,7 +1,5 @@
 #include "ohs/RobotID.h"
-#include "ohs/Formatter.h"
 #include "ohs/Assert.h"
-#include "ohs/Log.h"
 
 #include <algorithm>
 #include <sys/ioctl.h>
@@ -38,12 +36,10 @@ namespace ohs623 {
 		{
 			case MotorControllerType::TALON_SRX: 
 			{
-				OHS_DEBUG([motor](auto& f) { f << "Initalizing Talon SRX id " << motor; });
 				return new WPI_TalonSRX(data.ID);
 			}
 			case MotorControllerType::TALON_FX:
 			{
-				OHS_DEBUG([motor](auto& f) { f << "Initalizing Talon FX id " << motor; });
 				return new WPI_TalonFX(data.ID);
 			}
 			default: OHS_ASSERT(false, "Motor controller type not recognised!!");
@@ -114,12 +110,7 @@ namespace ohs623 {
 			if (AreMacAddressEqual(mac_address, SABER_MAC_ADDRESS)) s_CurrentBot = BotType::SABER;
 			else if (AreMacAddressEqual(mac_address, MARK_MAC_ADDRESS)) s_CurrentBot = BotType::MARK;
 			else {
-				ohs623::DefaultFormatter formatter;
-				formatter.Write("Failed to match MAC address: ");
-				for (unsigned int i = 0; i < sizeof(mac_address); i++) {
-					formatter.Write("0x").Base(mac_address[i], 16).Write(' ');
-				}
-				frc::DriverStation::ReportError(formatter.c_str());
+				wpi::outs() << "Failed to match MAC address";	
 			}
 		}
 

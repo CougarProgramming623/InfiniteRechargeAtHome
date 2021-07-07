@@ -12,7 +12,6 @@
 #include <frc2/command/PrintCommand.h>
 #include <frc2/command/CommandScheduler.h>
 #include <frc2/command/WaitCommand.h>
-#include "ohs/Log.h"
 
 #include "CobConstants.h"
 #include "Cob.h"

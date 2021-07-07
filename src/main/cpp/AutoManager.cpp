@@ -79,17 +79,11 @@ frc2::Command* AutoManager::GetAuto() {
 	return m_AutoMap[m_InUse];
 }
 
-void AutoManager::RunAuto(){
+void AutoManager::RunAuto() {
 	if (m_AutoMap.find(m_InUse) != m_AutoMap.end()) {
 		frc2::CommandScheduler::GetInstance().Schedule(m_AutoMap[m_InUse]);
 	} else {
-		OHS_ERROR([&](auto& f) {
-			f << "Name not in map: " << m_InUse << "\nMap is: ";
-			for (std::map<std::string, frc2::Command*>::iterator it = m_AutoMap.begin(); it != m_AutoMap.end(); it++) {
-				f << it->first << " = " << it->second->GetName();
-			}
-		});
+		wpi::outs() << "ERROR: couldn't find an auto with that name" << m_InUse << "\n";	
 	}
-	
 }
 }

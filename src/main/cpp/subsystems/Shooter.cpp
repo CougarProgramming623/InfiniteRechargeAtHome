@@ -1,7 +1,6 @@
 #include "subsystems/Shooter.h"
 #include "Robot.h"
 #include "ohs/RobotID.h"
-#include "ohs/Log.h"
 #include "Util.h"
 
 #include <frc/smartdashboard/SmartDashboard.h>
