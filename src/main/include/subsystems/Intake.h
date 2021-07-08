@@ -18,6 +18,7 @@ namespace ohs2020 {
 		void MoveIntakeUpDown();
 		void MoveIntakeRoller();
 		void Tick();
+		void ResetEncoder();
 
 		private:
 		frc2::Button m_IntakeDown;
@@ -26,7 +27,9 @@ namespace ohs2020 {
 		frc2::Button m_IntakeIn;
 		frc2::Button m_IntakeOut;
 
-		CANCoder m_IntakeEncoder;
+		//CANCoder m_IntakeEncoder;
+
+		int encoderZero;
 
 		WPI_TalonSRX m_IntakeMover;
 		WPI_TalonSRX m_BallMover;

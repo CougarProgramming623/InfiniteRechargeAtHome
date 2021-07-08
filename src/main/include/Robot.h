@@ -50,6 +50,7 @@ public:
 	inline AHRS* GetNavX() const { return navx; }
 	inline bool IsInitComplete() const { return m_Init; }
 	inline AutoManager& GetAutoMan() { return m_AutoManager; }
+	inline Intake* getIntake() { return m_intake; }
 
 
 private:

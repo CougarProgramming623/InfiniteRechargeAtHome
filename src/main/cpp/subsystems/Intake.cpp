@@ -10,7 +10,7 @@ namespace ohs2020 {
 
 Intake::Intake() :
 
-	m_IntakeEncoder(RobotID::GetID(INTAKE_MOVER)),
+	//m_IntakeEncoder(RobotID::GetID(INTAKE_MOVER)),
 	m_IntakeMover(RobotID::GetID(INTAKE_MOVER)),
 	m_BallMover(RobotID::GetID(BALL_MOVER)),
 
@@ -32,26 +32,28 @@ Intake::Intake() :
 void Intake::Init() {
 	MoveIntakeUpDown();
 	MoveIntakeRoller();
+	m_IntakeMover.EnableCurrentLimit(true);
+	encoderZero = m_IntakeMover.GetSelectedSensorPosition();
 }//Init
 
 void Intake::MoveIntakeUpDown() {
 	m_IntakeDown.WhileHeld(frc2::RunCommand([&] {
-		m_IntakeMover.Set(ControlMode::Position, 968130);
+		m_IntakeMover.Set(ControlMode::Position, -607000 + encoderZero);
 		DebugOutF("Intake Moving Down");
 	}, {}));
 	m_IntakeDown.WhenReleased(frc2::InstantCommand([&] {
-		m_IntakeMover.Set(ControlMode::Position, 1217316);
+		m_IntakeMover.Set(ControlMode::Position, -355000 + encoderZero);
 		DebugOutF("Down Stopped");
 	}, {}));
 
-	/*m_IntakeUp.WhileHeld(frc2::RunCommand([&] {
-		m_IntakeMover.Set(ControlMode::Position, 1217316);
+	m_IntakeUp.WhileHeld(frc2::RunCommand([&] {
+		m_IntakeMover.Set(ControlMode::Position, -100000 + encoderZero);
 		DebugOutF("Intake Moving Up");
 	}, {}));
 	m_IntakeUp.WhenReleased(frc2::InstantCommand([&] {
-		m_IntakeMover.Set(ControlMode::PercentOutput, 0);
+		m_IntakeMover.Set(ControlMode::Position, -355000 + encoderZero);
 		DebugOutF("Up Stopped");
-	}, {}));*/
+	}, {}));
 }//MoveIntakeUpDown
 
 void Intake::MoveIntakeRoller() {
@@ -81,7 +83,9 @@ void Intake::Tick() {
 
 	std::stringstream buffer;
 	buffer << "position: " << position;
+	buffer << " encoderZero: " << encoderZero;
 	DebugOutF(buffer.str());
 }
+
 
 }//namespace
