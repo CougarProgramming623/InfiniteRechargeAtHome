@@ -39,7 +39,7 @@ void Shooter::Init() {
 
 	SetupShooterButtons();
 	SetupConveyorButtons();
-
+	m_Feeder.SetSafetyEnabled(false);
 }
 
 inline bool GetFlyWheelToggleState() {
@@ -131,9 +131,9 @@ m_ConveyorToggle.WhenReleased(frc2::InstantCommand([&] {
 
 m_BloopFeeder.WhenPressed(frc2::SequentialCommandGroup(
 
-frc2::InstantCommand([&] { m_Feeder.Set(ControlMode::PercentOutput, 1); }, {}),
+frc2::InstantCommand([&] { if (!frc::DriverStation::GetInstance().IsAutonomous()) { m_Feeder.Set(ControlMode::PercentOutput, 1); } }, {}),
 frc2::WaitCommand(units::second_t(.25)),
-frc2::InstantCommand([&] { m_Feeder.Set(ControlMode::PercentOutput, 0); }, {})
+frc2::InstantCommand([&] { if (!frc::DriverStation::GetInstance().IsAutonomous()) { m_Feeder.Set(ControlMode::PercentOutput, 0); } }, {})
 
 ));
 
@@ -159,7 +159,7 @@ frc2::SequentialCommandGroup Shooter::Shoot() {
 	frc2::SequentialCommandGroup group = frc2::SequentialCommandGroup();
 
 	frc2::InstantCommand startFlywheel = frc2::InstantCommand( [&] {
-		m_Flywheel.Set(ControlMode::Velocity, 3145);
+		m_Flywheel.Set(ControlMode::Velocity, 4000);
 	}, {});
 
 	frc2::InstantCommand startFeeder = frc2::InstantCommand( [&] {

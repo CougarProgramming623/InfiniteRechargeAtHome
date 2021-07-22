@@ -56,7 +56,7 @@ void Intake::MoveIntakeUpDown() {
 
 void Intake::MoveIntakeRoller() {
 	m_IntakeIn.WhileHeld(frc2::RunCommand([&] {
-		m_BallMover.Set(ControlMode::PercentOutput, 0.25);
+		m_BallMover.Set(ControlMode::PercentOutput, 0.75);
 		DebugOutF("Roller Moving In");
 	}, {}));
 	m_IntakeIn.WhenReleased(frc2::InstantCommand([&] {
@@ -65,7 +65,7 @@ void Intake::MoveIntakeRoller() {
 	}, {}));
 
 	m_IntakeOut.WhileHeld(frc2::RunCommand([&] {
-		m_BallMover.Set(ControlMode::PercentOutput, -0.25);
+		m_BallMover.Set(ControlMode::PercentOutput, -1);
 		DebugOutF("Roller Moving Out");
 	}, {}));
 	m_IntakeOut.WhenReleased(frc2::InstantCommand([&] {
