@@ -19,7 +19,6 @@ namespace ohs2020 {
 		void MoveIntakeRoller();
 		void Tick();
 
-		private:
 		frc2::Button m_IntakeDown;
 		frc2::Button m_IntakeUp;
 

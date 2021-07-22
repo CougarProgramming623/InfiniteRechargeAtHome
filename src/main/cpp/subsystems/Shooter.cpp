@@ -162,6 +162,14 @@ frc2::SequentialCommandGroup Shooter::Shoot() {
 		m_Flywheel.Set(ControlMode::Velocity, 4000);
 	}, {});
 
+	frc2::InstantCommand startIntakeMover = frc2::InstantCommand( [&] {
+		Robot::Get().GetIntake()->m_IntakeMover.Set(ControlMode::PercentOutput, 0.2);
+	}, {});
+
+	frc2::InstantCommand stopIntakeMover = frc2::InstantCommand( [&] {
+		Robot::Get().GetIntake()->m_IntakeMover.Set(ControlMode::PercentOutput, 0);
+	}, {});
+
 	frc2::InstantCommand startFeeder = frc2::InstantCommand( [&] {
 		m_Feeder.Set(ControlMode::PercentOutput, 1);
 	}, {});
@@ -181,7 +189,16 @@ frc2::SequentialCommandGroup Shooter::Shoot() {
 		m_HighConveyor.Set(ControlMode::PercentOutput, 0.0);
 	}, {});
 
-	group.AddCommands(startFlywheel, frc2::WaitCommand(units::second_t(1.0)), startFeeder, spinConveyers, frc2::WaitCommand(units::second_t(4.0)), stopConveyers, stopShoot);
+	group.AddCommands(
+		startFlywheel, 
+		startIntakeMover,
+		frc2::WaitCommand(units::second_t(1.0)), 
+		stopIntakeMover,
+		startFeeder, 
+		spinConveyers, 
+		frc2::WaitCommand(units::second_t(4.0)), 
+		stopConveyers, 
+		stopShoot);
 
 	return group;
 }
