@@ -5,7 +5,11 @@
 #include <frc2/command/CommandHelper.h>
 #include <math.h>
 #include <wpi/SmallSet.h>
+#include <Robot.h>
+#include <frc/Timer.h>
+
 //end includes 
+
 
 namespace ohs2020 {
 
@@ -18,7 +22,7 @@ const double GEAR_RATIO = 12.0/1.0; //gear ratio of the bot
 const double CPI = (COUNTS_PER_ROTATION * GEAR_RATIO) / ((WHEEL_DIAMETER * (atan(1)*4) )/*PI*/ ); //counter per rotation of this wheel
 	//end calculated variables
 
-const int COUNT_THRESHOLD = 100;//accuracy threshold of counts
+const int COUNT_THRESHOLD = 1000;//accuracy threshold of counts
 
 //end drivetrain information variables
 
@@ -39,12 +43,11 @@ public:
 	bool IsFinished() override;
 	void End(bool interrupted) override;
 	virtual wpi::SmallSet<frc2::Subsystem*, 4> GetRequirements() const override{
-		return wpi::SmallSet<frc2::Subsystem*, 4> (); 
+		wpi::SmallSet<frc2::Subsystem*,4> set; 
+		set.insert(&Robot::Get().GetDriveTrain());
+		return set;
 	}
 	
-	virtual std::unique_ptr<frc2::Command> TransferOwnership() && override{
-		return std::unique_ptr<frc2::Command>(this);
-	}
 	//end of overrides
 
 private:
@@ -64,6 +67,8 @@ private:
 	//m_A:# of ticks to turn, negative being left, and positive being right (relative to 'forward' on wheels)
 
 	int m_InitialTicks [4];
+	frc::Timer* m_timer;
+
 	//initial position values for all 4 wheels for tracking relative progress while running PositionPID
 
 	//end movement variables

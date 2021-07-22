@@ -14,9 +14,6 @@ namespace ohs2020{
 
 AutoManager::AutoManager(){}
 AutoManager::~AutoManager(){
-	for (std::pair<std::string, frc2::Command*> element : m_AutoMap) {
-		delete element.second;
-	}
 }
 
 void AutoManager::AutoInit(){
@@ -29,7 +26,7 @@ void AutoManager::AutoInit(){
 
 	frc2::SequentialCommandGroup* shootAndBackwards = new frc2::SequentialCommandGroup();
 	shootAndBackwards->AddCommands(TurnToPosSlow());
-	shootAndBackwards->AddCommands(Robot::Get().GetShooter().Shoot());
+	shootAndBackwards->AddCommands(std::move(Robot::Get().GetShooter().Shoot()));
 	shootAndBackwards->AddCommands(EncoderDriveP(0.0, -5*12.0, 0));
 	m_AutoMap["shoot&back"] = shootAndBackwards;
 

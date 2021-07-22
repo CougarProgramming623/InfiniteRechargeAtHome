@@ -22,10 +22,7 @@ Intake::Intake() :
 
 {
 	ctre::phoenix::ErrorCode error = m_IntakeMover.ConfigSelectedFeedbackSensor(FeedbackDevice::QuadEncoder, 0, 100);
-	
-	std::stringstream buffer;
-	buffer << "error: " << error;
-	DebugOutF(buffer.str());
+
 }//constructor
 
 
@@ -79,9 +76,6 @@ void Intake::Tick() {
 	Cob::PushValue(CobKey::INTAKE_POSITION, position);
 	// OHS_DEBUG([&] (auto &f) { f << "position: " << position;});
 
-	std::stringstream buffer;
-	buffer << "position: " << position;
-	DebugOutF(buffer.str());
 }
 
 }//namespace

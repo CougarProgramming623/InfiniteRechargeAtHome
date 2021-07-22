@@ -200,7 +200,7 @@ frc2::SequentialCommandGroup Shooter::Shoot() {
 		stopConveyers, 
 		stopShoot);
 
-	return group;
+	return std::move(group);
 }
 
 }//namespace
