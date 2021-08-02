@@ -26,8 +26,9 @@ void AutoManager::AutoInit(){
 
 	frc2::SequentialCommandGroup* shootAndBackwards = new frc2::SequentialCommandGroup();
 	shootAndBackwards->AddCommands(TurnToPosSlow());
-	shootAndBackwards->AddCommands(std::move(Robot::Get().GetShooter().Shoot()));
 	shootAndBackwards->AddCommands(EncoderDriveP(0.0, -5*12.0, 0));
+	shootAndBackwards->AddCommands(TurnToPosSlow());
+	shootAndBackwards->AddCommands(std::move(Robot::Get().GetShooter().Shoot()));
 	m_AutoMap["shoot&back"] = shootAndBackwards;
 
 

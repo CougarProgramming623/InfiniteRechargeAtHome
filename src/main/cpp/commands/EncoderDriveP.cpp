@@ -70,7 +70,7 @@ void EncoderDriveP::Initialize() {
 }//starts motor turn
 
 bool EncoderDriveP::IsFinished() {
-	if(m_timer->Get() > 7) return true; // exit early after 3 seconds
+	if(m_timer->Get() > 2) return true; // exit early after 3 seconds
 	double error1 = abs( Robot::Get().GetDriveTrain().GetLFront()->GetSelectedSensorPosition() - (m_InitialTicks[0] + m_Y + m_X + m_A));
 	double error2 = abs( Robot::Get().GetDriveTrain().GetRFront()->GetSelectedSensorPosition() - (m_InitialTicks[1] + m_Y - m_X - m_A));
 	double error3 = abs( Robot::Get().GetDriveTrain().GetLBack()->GetSelectedSensorPosition() - (m_InitialTicks[2] + m_Y - m_X + m_A));

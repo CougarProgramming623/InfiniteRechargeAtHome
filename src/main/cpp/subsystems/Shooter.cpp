@@ -159,7 +159,7 @@ frc2::SequentialCommandGroup Shooter::Shoot() {
 	frc2::SequentialCommandGroup group = frc2::SequentialCommandGroup();
 
 	frc2::InstantCommand startFlywheel = frc2::InstantCommand( [&] {
-		m_Flywheel.Set(ControlMode::Velocity, 4000);
+		m_Flywheel.Set(ControlMode::Velocity, 6000);
 	}, {});
 
 	frc2::InstantCommand startIntakeMover = frc2::InstantCommand( [&] {
