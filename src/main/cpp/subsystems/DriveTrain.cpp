@@ -64,7 +64,7 @@ void DriveTrain::UsePositionPID(){
 	DriveTrain::SetPID(50, 0.05, 0.0, 0.0, 0.0);
 }
 
-void DriveTrain::UseVelocityPID(){
+void DriveTrain::UseVelocityPID() {
 	DebugOutF("WARNING:USING VELOCITY PID");
 	DriveTrain::SetPID(50, 0.0, 0.0, 0.0, 0.05);
 }

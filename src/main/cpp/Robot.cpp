@@ -39,8 +39,8 @@ void Robot::RobotInit() {
 	m_oi.Init();
 	m_shooter.Init();
 	m_climb.Init();
-	Intake* intake = new Intake();
-	intake->Init();
+	m_intake = new Intake();
+	m_intake->Init();
 
 	RemoveRegistry(navx);
 
@@ -82,6 +82,7 @@ void Robot::RobotPeriodic() {
 	Cob::InMesUpdate();
 
 	frc2::CommandScheduler::GetInstance().Run();
+	m_intake->Tick();
 
 	Cob::PushValue(CobKey::IN_USE_AUTO, m_AutoManager.GetInUse());
 	Cob::PushValue(CobKey::ROTATION, navx->GetYaw());
@@ -169,13 +170,14 @@ void Robot::AutonomousPeriodic() {
 }
 
 void Robot::TeleopInit() {
+	wpi::outs() << "Teleop INIT\n";
 	// This makes sure that the autonomous stops running when
 	// teleop starts running. If you want the autonomous to
 	// continue until interrupted by another command, remove
 	// this line or comment it out.
 	if (m_autonomousCommand != nullptr) {
 		m_autonomousCommand->Cancel();
-		m_autonomousCommand = nullptr;
+		// m_autonomousCommand = nullptr;
 	}
 	m_DriveTrain.SetBrakeMode(true);
 }
@@ -184,7 +186,6 @@ void Robot::TeleopInit() {
  * This function is called periodically during operator control.
  */
 void Robot::TeleopPeriodic() {
-
 
 }
 

@@ -81,6 +81,8 @@ void Cob::Init() {
 	RegisterKey(CobKey::IN_USE_AUTO, "/cob/auto/in-use");
 	RegisterKey(CobKey::LIMELIGHT_TOGGLE, "/limelight/ledMode");
 	RegisterKey(CobKey::COB_CHECK, "/cob/cob-check");
+
+	RegisterKey(CobKey::INTAKE_POSITION, "/cob/intake/position");
 }
 
 void Cob::RegisterKey(CobKey key, std::string name, bool persistent) {

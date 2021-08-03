@@ -2,37 +2,32 @@
 
 #include <ctre/Phoenix.h>
 #include <frc2/command/button/Button.h>
-#include <frc/DigitalInput.h>
 
-#include "Robot.h"
+#include "Cob.h"
 
-namespace ohs2020{
-
-class Intake {
-
-public:
-	Intake();
+// #include "Robot.h"
 
 
-	void Init();
-	void SetPositionButton();
-	void SetToggleIntakeButtons();
+namespace ohs2020 {
 
-private:
+	class Intake {
+		public:
+		Intake();
 
-frc2::Button m_IntakeDown;
-frc2::Button m_IntakeStowed;
-frc2::Button m_IntakeUp;
+		void Init();
+		void MoveIntakeUpDown();
+		void MoveIntakeRoller();
+		void Tick();
 
-frc2::Button m_IntakeOn;
-frc2::Button m_IntakeOff;
-frc2::Button m_IntakeReverse;
+		frc2::Button m_IntakeDown;
+		frc2::Button m_IntakeUp;
 
-WPI_TalonSRX m_IntakePositioner;
-WPI_TalonSRX m_MainIntakeMotor;
+		frc2::Button m_IntakeIn;
+		frc2::Button m_IntakeOut;
 
-frc::DigitalInput m_MiddleLimit;
-bool lastSwitch = false;
+		CANCoder m_IntakeEncoder;
 
-};
+		WPI_TalonSRX m_IntakeMover;
+		WPI_TalonSRX m_BallMover;
+	};
 }//namespace

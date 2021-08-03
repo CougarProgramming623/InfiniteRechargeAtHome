@@ -50,6 +50,7 @@ public:
 	inline AHRS* GetNavX() const { return navx; }
 	inline bool IsInitComplete() const { return m_Init; }
 	inline AutoManager& GetAutoMan() { return m_AutoManager; }
+	inline Intake* GetIntake(){ return m_intake; }
 
 
 private:
@@ -66,6 +67,7 @@ private:
 	Shooter m_shooter;
 	// ohsIntake m_intake;
 	Climb m_climb;
+	Intake* m_intake;
 	int m_CobCheck;
 
 	static const int kLength = 140; // **test**

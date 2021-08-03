@@ -55,7 +55,6 @@ private:
 	frc2::Button m_ConveyorToggle;
 	frc2::Button m_ReverseFeeder;
 
-
 	frc2::Button m_BloopFeeder; 
 
 	frc2::Timer timer;

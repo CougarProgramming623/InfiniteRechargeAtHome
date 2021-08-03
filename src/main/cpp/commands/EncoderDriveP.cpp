@@ -12,9 +12,11 @@ namespace ohs2020 {
 
 //constructors
 EncoderDriveP::EncoderDriveP(int x, int y, int a){
+	wpi::outs() << "constructing encoderdrivep\n";
 	m_X = x*HORIZONTAL_CALIBRATION;
 	m_Y = y*VERTICAL_CALIBRATION;
 	m_A = a;
+	m_timer = new Timer();
 	AddRequirements(&Robot::Get().GetDriveTrain());//prevents other commands that require drivetrain from running (!)DOES NOT WORK(!)
 } //base constructor
 
@@ -31,6 +33,9 @@ EncoderDriveP::EncoderDriveP(double x, double y) : EncoderDriveP(x, y, 0) {}
 
 //override commands
 void EncoderDriveP::Initialize() {
+	wpi::outs() << "encoder drive p initalize()\n";
+	m_timer->Start();
+
 
 	//limits max wheel speed for PID	
 	Robot::Get().GetDriveTrain().GetLFront()->ConfigPeakOutputForward(0.5,0);
@@ -65,30 +70,35 @@ void EncoderDriveP::Initialize() {
 }//starts motor turn
 
 bool EncoderDriveP::IsFinished() {
-	
-	return
-		abs( Robot::Get().GetDriveTrain().GetLFront()->GetSelectedSensorPosition() - (m_InitialTicks[0] + m_Y + m_X + m_A)) <= COUNT_THRESHOLD &&
-		abs( Robot::Get().GetDriveTrain().GetRFront()->GetSelectedSensorPosition() - (m_InitialTicks[1] + m_Y - m_X - m_A)) <= COUNT_THRESHOLD &&
-		abs( Robot::Get().GetDriveTrain().GetLBack()->GetSelectedSensorPosition() - (m_InitialTicks[2] + m_Y - m_X + m_A)) <= COUNT_THRESHOLD &&
-		abs( Robot::Get().GetDriveTrain().GetRBack()->GetSelectedSensorPosition() - (m_InitialTicks[3] + m_Y + m_X - m_A)) <= COUNT_THRESHOLD;
+	if(m_timer->Get() > 2) return true; // exit early after 3 seconds
+	double error1 = abs( Robot::Get().GetDriveTrain().GetLFront()->GetSelectedSensorPosition() - (m_InitialTicks[0] + m_Y + m_X + m_A));
+	double error2 = abs( Robot::Get().GetDriveTrain().GetRFront()->GetSelectedSensorPosition() - (m_InitialTicks[1] + m_Y - m_X - m_A));
+	double error3 = abs( Robot::Get().GetDriveTrain().GetLBack()->GetSelectedSensorPosition() - (m_InitialTicks[2] + m_Y - m_X + m_A));
+	double error4 = abs( Robot::Get().GetDriveTrain().GetRBack()->GetSelectedSensorPosition() - (m_InitialTicks[3] + m_Y + m_X - m_A));
+	bool res = error1 <= COUNT_THRESHOLD && 
+		   error2 <= COUNT_THRESHOLD && 
+		   error3 <= COUNT_THRESHOLD && 
+		   error4 <= COUNT_THRESHOLD;
+	//wpi::outs() << "is finished? errors: " << error1 << ", " << error2 << ", " 
+	//	<< error3 << ", " << error4 << " IsFinished?: " << res << "\n";
+	return res;
 	//returns true if all values are within accuracy threshold (defined in EncoderDriveP.h)
 
 }//returns true when encoderTicks is equals to or greater than target
 
 void EncoderDriveP::Execute() {
-	
-	Robot::Get().GetDriveTrain().UsePositionPID();
+	//Robot::Get().GetDriveTrain().UsePositionPID();
 
 	//sets motor targets for PID to traverse to
 	Robot::Get().GetDriveTrain().GetLFront()->Set(ControlMode::Position, m_InitialTicks[0]+(m_Y + m_X + m_A) );
 	Robot::Get().GetDriveTrain().GetRFront()->Set(ControlMode::Position, m_InitialTicks[1]+(m_Y - m_X - m_A) );
 	Robot::Get().GetDriveTrain().GetLBack()->Set(ControlMode::Position,  m_InitialTicks[2]+(m_Y - m_X + m_A) );
 	Robot::Get().GetDriveTrain().GetRBack()->Set(ControlMode::Position,  m_InitialTicks[3]+(m_Y + m_X - m_A) );
-	//
 
 }//execute command
 
 void EncoderDriveP::End(bool interrupted) {
+	wpi::outs() << "encoder drive p ending\n";
 	
 	Robot::Get().GetDriveTrain().SetBrakeMode(true);
 	Robot::Get().GetDriveTrain().UseVelocityPID();//resets PID mode as Velcity is default PID mode
