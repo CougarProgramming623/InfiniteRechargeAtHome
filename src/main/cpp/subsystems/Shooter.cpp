@@ -19,26 +19,17 @@ Shooter::Shooter() :
 
 m_Flywheel(RobotID::GetID(FLYWHEEL)),
 m_Feeder(RobotID::GetID(FEEDER)),
-m_LowConveyor(RobotID::GetID(LOW_TRANSPORT)),
-m_HighConveyor(RobotID::GetID(HIGH_TRANSPORT)),
 m_FlyWheelEncoder(RobotID::GetID(FLYWHEEL)),
-
 
 m_Launcher( [&] 		{ return Robot::Get().GetOI().GetButtonBoard().GetRawButton(2); }),
 m_FlyWheelToggle([&] 	{ return Robot::Get().GetOI().GetButtonBoard().GetRawButton(4);	}), 
-m_ConveyorToggle( [&] { return Robot::Get().GetOI().GetButtonBoard().GetRawButton(15); 	}),
-m_ReverseFeeder( [&] { return Robot::Get().GetOI().GetButtonBoard().GetRawButton(14); 	}),
-
-m_BloopFeeder([&]  { return m_HighConveyor.IsFwdLimitSwitchClosed();} ) {
-
-	RemoveRegistry(this, &m_Flywheel, &m_Feeder, &m_LowConveyor, &m_HighConveyor);
-
-}
+//m_ConveyorToggle( [&] { return Robot::Get().GetOI().GetButtonBoard().GetRawButton(15); }),
+m_ReverseFeeder( [&] { return Robot::Get().GetOI().GetButtonBoard().GetRawButton(14); 	})
+{}
 
 void Shooter::Init() {
 
 	SetupShooterButtons();
-	SetupConveyorButtons();
 	m_Feeder.SetSafetyEnabled(false);
 }
 
@@ -92,67 +83,6 @@ void Shooter::SetupShooterButtons() {
 		m_Feeder.Set(ControlMode::PercentOutput, 0);
 
 	}, {} ));
-
-	m_ReverseFeeder.WhenHeld(frc2::RunCommand([&] {
-
-		m_HighConveyor.Set(ControlMode::PercentOutput, -1);
-		m_LowConveyor.Set(ControlMode::PercentOutput, -1);
-
-	}, {} ));
-
-	m_ReverseFeeder.WhenReleased(frc2::InstantCommand([&] {
-
-		m_HighConveyor.Set(ControlMode::PercentOutput, 0);
-		m_LowConveyor.Set(ControlMode::PercentOutput, 0);
-
-	}, {} ));
-} 
-
-
-void Shooter::SetupConveyorButtons() {
-
-m_ConveyorToggle.WhenHeld(frc2::RunCommand([&] {
-
-	m_LowConveyor.Set(ControlMode::PercentOutput, .5);
-	m_HighConveyor.Set(ControlMode::PercentOutput, 1);
-	
-	Robot::Get().GetOI().GetButtonBoard().SetOutput(1, m_HighConveyor.IsFwdLimitSwitchClosed());
-
-
-}, {}));
-
-m_ConveyorToggle.WhenReleased(frc2::InstantCommand([&] {
-	
-	m_LowConveyor.Set(ControlMode::PercentOutput, 0);
-	m_HighConveyor.Set(ControlMode::PercentOutput, 0);
-	Robot::Get().GetOI().GetButtonBoard().SetOutput(1, false);
-
-}, {}));
-
-m_BloopFeeder.WhenPressed(frc2::SequentialCommandGroup(
-
-frc2::InstantCommand([&] { if (!frc::DriverStation::GetInstance().IsAutonomous()) { m_Feeder.Set(ControlMode::PercentOutput, 1); } }, {}),
-frc2::WaitCommand(units::second_t(.25)),
-frc2::InstantCommand([&] { if (!frc::DriverStation::GetInstance().IsAutonomous()) { m_Feeder.Set(ControlMode::PercentOutput, 0); } }, {})
-
-));
-
-}
-
-void Shooter::ReverseConveyor() {
-	frc2::CommandScheduler::GetInstance().Schedule(new frc2::SequentialCommandGroup(
-
-		frc2::InstantCommand( [&] { 
-			m_HighConveyor.Set(ControlMode::PercentOutput, -1);
-		}, {}), 
-
-		frc2::WaitCommand(units::second_t(1)),
-
-		frc2::InstantCommand( [&] {
-			m_HighConveyor.Set(ControlMode::PercentOutput, 0);
-		}, {})
-
-	));
 }
 
 frc2::SequentialCommandGroup Shooter::Shoot() {
@@ -162,13 +92,6 @@ frc2::SequentialCommandGroup Shooter::Shoot() {
 		m_Flywheel.Set(ControlMode::Velocity, 6000);
 	}, {});
 
-	frc2::InstantCommand startIntakeMover = frc2::InstantCommand( [&] {
-		Robot::Get().GetIntake()->m_IntakeMover.Set(ControlMode::PercentOutput, 0.2);
-	}, {});
-
-	frc2::InstantCommand stopIntakeMover = frc2::InstantCommand( [&] {
-		Robot::Get().GetIntake()->m_IntakeMover.Set(ControlMode::PercentOutput, 0);
-	}, {});
 
 	frc2::InstantCommand startFeeder = frc2::InstantCommand( [&] {
 		m_Feeder.Set(ControlMode::PercentOutput, 1);
@@ -179,25 +102,11 @@ frc2::SequentialCommandGroup Shooter::Shoot() {
 		m_Feeder.Set(ControlMode::PercentOutput, 0);
 	}, {});
 
-	frc2::InstantCommand spinConveyers = frc2::InstantCommand( [&] { 
-		m_LowConveyor.Set(ControlMode::PercentOutput, 0.5);
-		m_HighConveyor.Set(ControlMode::PercentOutput, 1.0); 
-	}, {});
-
-	frc2::InstantCommand stopConveyers = frc2::InstantCommand( [&] { 
-		m_LowConveyor.Set(ControlMode::PercentOutput, 0.0);
-		m_HighConveyor.Set(ControlMode::PercentOutput, 0.0);
-	}, {});
-
 	group.AddCommands(
 		startFlywheel, 
-		startIntakeMover,
 		frc2::WaitCommand(units::second_t(1.0)), 
-		stopIntakeMover,
 		startFeeder, 
-		spinConveyers, 
 		frc2::WaitCommand(units::second_t(4.0)), 
-		stopConveyers, 
 		stopShoot);
 
 	return std::move(group);

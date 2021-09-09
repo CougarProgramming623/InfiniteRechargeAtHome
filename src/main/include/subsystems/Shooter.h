@@ -25,9 +25,6 @@ public:
 	void Init();
 
 	void SetupShooterButtons();
-	void SetupConveyorButtons();
-
-	void ReverseConveyor();
 
 	bool FlyWheelMode = false;
 
@@ -45,8 +42,6 @@ private:
 
 	WPI_TalonSRX m_Flywheel;
 	WPI_TalonSRX m_Feeder;
-	WPI_TalonSRX m_LowConveyor;
-	WPI_TalonSRX m_HighConveyor;
 
 	CANCoder m_FlyWheelEncoder;
 

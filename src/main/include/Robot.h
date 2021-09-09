@@ -11,7 +11,6 @@
 #include "subsystems/DriveTrain.h"
 #include "subsystems/Shooter.h"
 #include "subsystems/Climb.h"
-#include "subsystems/Intake.h"
 
 #include "Util.h"
 
@@ -50,8 +49,6 @@ public:
 	inline AHRS* GetNavX() const { return navx; }
 	inline bool IsInitComplete() const { return m_Init; }
 	inline AutoManager& GetAutoMan() { return m_AutoManager; }
-	inline Intake* GetIntake(){ return m_intake; }
-
 
 private:
 	// Have it null by default so that if testing teleop it
@@ -67,7 +64,6 @@ private:
 	Shooter m_shooter;
 	// ohsIntake m_intake;
 	Climb m_climb;
-	Intake* m_intake;
 	int m_CobCheck;
 
 	static const int kLength = 140; // **test**

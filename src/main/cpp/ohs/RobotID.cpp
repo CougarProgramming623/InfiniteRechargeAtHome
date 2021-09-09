@@ -68,9 +68,7 @@ namespace ohs623 {
 			IDs[BotType::SABER][Motor::CLIMB_LEFT] = { 4, MotorControllerType::TALON_SRX };     
 			IDs[BotType::SABER][Motor::CLIMB_RIGHT] = { 17 , MotorControllerType::TALON_SRX };     
 			IDs[BotType::SABER][Motor::FLYWHEEL] = { 35, MotorControllerType::TALON_SRX };     
-			IDs[BotType::SABER][Motor::FEEDER] = { 3, MotorControllerType::TALON_SRX };     
-			IDs[BotType::SABER][Motor::LOW_TRANSPORT] = { 7 , MotorControllerType::TALON_SRX };     
-			IDs[BotType::SABER][Motor::HIGH_TRANSPORT] = { 15 , MotorControllerType::TALON_SRX };     
+			IDs[BotType::SABER][Motor::FEEDER] = { 3, MotorControllerType::TALON_SRX };        
 			IDs[BotType::SABER][Motor::INTAKE_MOVER] = { 11 , MotorControllerType::TALON_SRX };     
 			IDs[BotType::SABER][Motor::BALL_MOVER] = { 14 , MotorControllerType::TALON_SRX };     
 
