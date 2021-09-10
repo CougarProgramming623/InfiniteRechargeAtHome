@@ -38,7 +38,7 @@ void Robot::RobotInit() {
 	m_DriveTrain.Init();
 	m_oi.Init();
 	m_shooter.Init();
-	m_climb.Init();
+	// m_climb.Init(); TODO
 	RemoveRegistry(navx);
 
 	try {
@@ -136,8 +136,9 @@ void Robot::RobotPeriodic() {
 
 void Robot::DisabledInit() {
 
-	m_climb.isDeployed = false;
-	m_climb.isDeployFinished = false;
+	/*m_climb.isDeployed = false;
+	m_climb.isDeployFinished = false;*/
+	//TODO
 
 	m_DriveTrain.SetBrakeMode(false);
 }

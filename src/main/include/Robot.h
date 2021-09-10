@@ -63,7 +63,7 @@ private:
 	AHRS* navx;
 	Shooter m_shooter;
 	// ohsIntake m_intake;
-	Climb m_climb;
+	//Climb m_climb; TODO
 	int m_CobCheck;
 
 	static const int kLength = 140; // **test**
