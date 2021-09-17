@@ -17,6 +17,9 @@ public:
 
 	double GetFlywheelWU() { return 0; }
 
+
+private:
+	bool m_isLoaded = false;
 };
     
 }
