@@ -40,7 +40,8 @@ private:
 	bool m_IsFlywheelOn = false;
 	double m_FlywheelWU = 0.0;
 
-	WPI_TalonSRX m_Flywheel;
+	WPI_TalonSRX m_FrontFlywheel;
+	WPI_TalonSRX m_BackFlywheel;
 	WPI_TalonSRX m_Feeder;
 
 	CANCoder m_FlyWheelEncoder;
